@@ -1,3 +1,10 @@
+# About load dataset from CSV file into MongoDB Cluster
+# Step 1: Open database_service.cfg file
+# Step 2: Change your mongoDB config with username, password and cluster_url
+# Step 3: If you want to add your data, throw it in Data folder
+# Step 4: Open database.py
+# Step 5: Run and wait for it until complete data uploaded (you can have a cup of tea while waiting =]]] )
+
 import pandas as pd
 import os
 import pymongo
@@ -16,10 +23,6 @@ connection_string = f"mongodb+srv://{database_username}:{database_password}@{dat
 directory_path = f"{os.path.dirname(os.path.realpath(__file__))}/Data"
 
 
-#   There are 2 ways to add all CSV data from 2 different folders into MongoDB Cluster by different method
-#   Method 01: Add data by year
-#   
-#   Method 02: Add all data and create new "year" column 
 
 def read_csv_files_in_folder_recursive(folder_path):
     dataframes_by_category_and_year = {}
@@ -104,9 +107,9 @@ if __name__ == "__main__":
 
     dataframe_grouped = read_csv_files_in_folder_recursive(directory_path)
     check_null_values(dataframe_grouped)
-    # print(dataframe_grouped)
-    # successfulDataInserted = insert_dataframe_into_mongodb(
-    #     mongo_url=connection_string,
-    #     database_name="Dutch_energy",
-    #     dataframes_by_category_and_year=dataframe_grouped
-    # )
+
+    successfulDataInserted = insert_dataframe_into_mongodb(
+        mongo_url=connection_string,
+        database_name="Dutch_energy",
+        dataframes_by_category_and_year=dataframe_grouped
+    )
